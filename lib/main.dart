@@ -65,7 +65,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(fontSize: 25),
                 ),
                 SizedBox(height: 20),
-                TextField(
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value.isEmpty){
+                      return "Please enter value!";
+                    }
+                    else{
+                      return null;
+                    }
+                  },
                   onChanged: (value){
                     amount = double.parse(value);
                   },
@@ -76,7 +85,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value.isEmpty){
+                      return "Please enter value!";
+                    }
+                    else{
+                      return null;
+                    }
+                  },
                   onChanged: (value){
                     person = int.parse(value);
                   },
@@ -93,10 +111,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.white
                   ),),
                   onPressed: (){
-                    if(_formKey.currentState.validate())
-                    setState(() {
-                      split = amount/person;
-                    });
+                    if(_formKey.currentState.validate()){
+                      setState(() {
+                        split = amount/person.round();
+                      });
+                    }
+                    else{
+
+                    }
+
                   },
                 ),
               ],
@@ -104,11 +127,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _splitTheBill,
-        tooltip: 'Split Bill',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _splitTheBill,
+      //   tooltip: 'Split Bill',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
