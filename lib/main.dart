@@ -9,7 +9,10 @@ class SplitTheBill extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.purple,
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.purple
+        )
       ),
       home: MyHomePage(title: 'Bill Split'),
     );
@@ -27,6 +30,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  double amount, split;
+  int person;
+
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
+
 
   void _splitTheBill() {
     setState(() {
@@ -41,21 +50,58 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Final Bill Split is :',
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  split == null ?
+                  "Fill the details and click on calculate to see split"
+                  : "Your split is $split",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  onChanged: (value){
+                    amount = double.parse(value);
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Amount",
+                    hintText: "1000.0",
+                    border: OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  onChanged: (value){
+                    person = int.parse(value);
+                  },
+
+                  decoration: InputDecoration(
+                      labelText: "No. of Persons",
+                      hintText: "5",
+                      border: OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: 20),
+                RaisedButton(
+                  child: Text("Calculate", style: TextStyle(
+                    color: Colors.white
+                  ),),
+                  onPressed: (){
+                    if(_formKey.currentState.validate())
+                    setState(() {
+                      split = amount/person;
+                    });
+                  },
+                ),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            RaisedButton(
-              child: Text("Split Bill"),
-              onPressed: (){},
-            ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
